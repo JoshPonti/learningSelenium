@@ -36,7 +36,7 @@ public class seleniumDemo {
 		
 		//searching then submitting
 		element.sendKeys("20");
-		element.submit();
+		//element.submit();
 		
 		//Close Browser
 		//driver.close();
