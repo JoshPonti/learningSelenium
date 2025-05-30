@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,8 +17,24 @@ public class seleniumDemo {
 
 	WebDriver driver;
 	WebDriverWait wait;
-	Actions actions;
+	Actions actions;		
 	
+	public static void main(String[] args) throws InterruptedException {
+
+		seleniumDemo obj = new seleniumDemo();
+		
+		//Running all the methods
+		obj.openBrowser();
+		obj.addRemoveElements();
+		//obj.basicAuth(); --come back to this later
+		obj.checkbox();
+		obj.contextMenu();
+		obj.dragDrop();
+		obj.inputPage();
+		
+		obj.closeBrowser();
+	}
+
 	public void openBrowser() {
 		
 		//class object
@@ -37,6 +54,7 @@ public class seleniumDemo {
 		
 		wait = new WebDriverWait (driver,Duration.ofSeconds(5));
 	}
+
 	public void addRemoveElements() throws InterruptedException {
 		
 		WebElement link = driver.findElement(By.linkText("Add/Remove Elements"));
@@ -60,6 +78,7 @@ public class seleniumDemo {
 		//Going back a page
 		driver.navigate().back();
 	}
+	
 	public void basicAuth() throws InterruptedException {
 		String user, pass;
 		user = "admin";
@@ -74,6 +93,7 @@ public class seleniumDemo {
 		Thread.sleep(2000);
 		driver.navigate().back();
 	}
+	
 	public void checkbox() throws InterruptedException {
 		
 		WebElement link = driver.findElement(By.linkText("Checkboxes"));
@@ -104,6 +124,7 @@ public class seleniumDemo {
 		Thread.sleep(2000);
 		driver.navigate().back();
 	}
+	
 	public void contextMenu() throws InterruptedException {
 		
 		WebElement link = driver.findElement(By.linkText("Context Menu"));
@@ -119,11 +140,33 @@ public class seleniumDemo {
 		//"moving" mouse to context menu area
 		actions.contextClick(element).perform();
 		
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		
 		driver.switchTo().alert().accept();
 		
+		actions.sendKeys(Keys.ESCAPE).perform();
+		//actions.click().perform();
+		
 		Thread.sleep(2000);
+		driver.navigate().back();
+	}
+	public void dragDrop() throws InterruptedException {
+		WebElement link = driver.findElement(By.linkText("Drag and Drop"));
+		link.click();
+		
+		Thread.sleep(1000);
+		
+		WebElement boxA = driver.findElement(By.id("column-a"));
+		WebElement boxB = driver.findElement(By.id("column-b"));
+		
+		actions = new Actions(driver);
+		
+		//Dragging Box A to Box B
+		//Action dragAndDrop = driver.clickAndHold(boxA).moveToElement(boxB).release(boxB).build();
+		new Actions(driver).clickAndHold(boxA).moveToElement(boxB).release().build();
+		
+		Thread.sleep(1000);
+		
 		driver.navigate().back();
 	}
 	public void inputPage() throws InterruptedException {
@@ -133,7 +176,8 @@ public class seleniumDemo {
 		link.click();
 		
 		//wait = new WebDriverWait (driver, Duration.ofSeconds(10));
-				
+		Thread.sleep(1000);		
+		
 		WebElement textInput = driver.findElement(By.xpath("//div[@class='example']/input[@type='number']"));
 				
 		//searching then submitting
@@ -142,25 +186,10 @@ public class seleniumDemo {
 		Thread.sleep(2000);
 		driver.navigate().back();
 	}
+	
 	public void closeBrowser() {
 		//closeing browser
 		driver.quit();
 	}
-	
-	public static void main(String[] args) throws InterruptedException {
-
-		seleniumDemo obj = new seleniumDemo();
-		
-		//Running all the methods
-		obj.openBrowser();
-		obj.addRemoveElements();
-		//obj.basicAuth(); --come back to this later
-		obj.checkbox();
-		obj.contextMenu();
-		obj.inputPage();
-		
-		obj.closeBrowser();
-	}
-
 
 }
